@@ -57,6 +57,9 @@ HelperFunctions::removeMagicQuotes();
 // unregister globals
 HelperFunctions::unregisterGlobals();
 
+//route request accordingly
+Router::route($_route);
+
 // close session to speed up the concurrent connections
 // http://php.net/manual/en/function.session-write-close.php
 session_write_close();
