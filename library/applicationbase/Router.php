@@ -16,8 +16,16 @@ class Router
      
         //Ensure that controller/model name is in correct form (eg userController, userModel)
         $moduleName = ucwords(trim($controller));
-        $controller = $moduleName.'Controller';
-        $model = $moduleName.'Model';
+        $controllerName = $moduleName.'Controller';
+        $modelName = $moduleName.'Model';
         
+        //Create controller based on request
+        $dispatch = new Controller($controllerName,$action);
+
+        if ((int)method_exists($controller, $action)) {
+            call_user_func_array(array($dispatch,$action),$queryString);
+        } else {
+            //********* ERROR: failed to find proper course of action for request *************** //
+        }
     }
 }
