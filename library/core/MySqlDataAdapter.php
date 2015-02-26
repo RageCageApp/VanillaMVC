@@ -87,6 +87,27 @@ class MySqlDataAdapter
     }
 
     /**
+     *
+     * @param string $tableName The name of the table.
+     * @param array $insertData Data containing information for inserting into the DB.
+     *
+     * @return boolean insert query was success or failure.
+     */
+    public function insert($tableName, $insertData)
+    {
+        $this->_query = "INSERT into " .$tableName;
+        $stmt = $this->_buildQuery(null, $insertData);
+        $stmt->execute();
+        $this->_lastError = $stmt->error;
+      
+        if ($stmt->affected_rows < 1)
+            return false;
+        if ($stmt->insert_id > 0)
+            return $stmt->insert_id;
+        return true;
+    }
+
+    /**
      * @param array $arr
      *
      * @return array
