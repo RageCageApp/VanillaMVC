@@ -3,6 +3,7 @@ class Controller {
     protected $_controller;
     protected $_action;
     protected $_view;
+    protected $models;
  
     function __construct($controller, $action) {
         $this->_controller = $controller;
