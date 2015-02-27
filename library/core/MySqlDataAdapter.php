@@ -130,6 +130,52 @@ class MySqlDataAdapter
     }
 
     /**
+     *
+     * @param string $tableName The name of the table.
+     * @param array  $insertData Data containing insert info.
+     *
+     * @return boolean Boolean indicating successs/failure.
+     */
+    public function update($tableName, $insertData, $whereData)
+    {
+        $this->_query = "UPDATE " .$tableName." SET ";
+
+        $params = array(''); // Create the empty 0 index
+        foreach ($insertData as $column => $value){
+            $params[0] .= $this->_getType($value);
+            array_push ($params, $insertData[$column]);
+            $this->_query .= '`' . $column . '` = ?, ';
+        }
+
+        $this->_query = rtrim($this->_query, ', ');
+        
+        // Where statement
+        foreach ($whereData as $column => $value){
+            $params[0] .= $this->_getType($value);
+            array_push ($params, $whereData[$column]);
+            $this->_query .= ' WHERE `' . $column . '` = ?';
+        }
+
+        // Prepare query
+        if (!$stmt = $this->_mysqli->prepare($this->_query)) {
+            trigger_error("Problem preparing query ($this->_query) " . $this->_mysqli->error, E_USER_ERROR);
+        }
+
+        // Bind parameters to statement if any
+        call_user_func_array(array($stmt, 'bind_param'), $this->refValues($params));
+
+        $stmt->execute();
+        $this->_lastError = $stmt->error;
+
+        if ($stmt->affected_rows < 1)
+            return false;
+        if ($stmt->insert_id > 0)
+            return $stmt->insert_id;
+
+        return true;
+    }
+
+    /**
      * @param array $arr
      *
      * @return array
