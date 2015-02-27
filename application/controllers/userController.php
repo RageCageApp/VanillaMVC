@@ -26,14 +26,27 @@ class userController extends Controller {
 	 */
 	public function login()
 	{
-		//var_dump($this->get_model('UserAuth')->login('myromac87@gmail.com','polosport'));
-		//var_dump($this->session->getSessionData());
 		if($this->get_model('UserAuth')->isLoggedIn())
-			echo 'redirect to index'
+			echo 'Redirect to index';
 		else if($this->get_model('UserAuth')->isLoggedIn(FALSE))
 			echo 'Redirect to resend email';
 		else
-			$this->get_model('UserAuth')->login('myromac87@gmail.com','polosport');
+		{
+			if(isset($_POST['email']) && isset($_POST['password'])){
+				// Sanitize email POST value. No ned to sanitize password because we will be hashing it later anyway.
+				// This is by no means the best way to sanitize POST values. There are libraries that we can use
+				// to sanitize user input more effectively; but, for this exercise, this should do.
+				$email 		= filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
+				$password 	= $_POST['password'];
+
+				if($this->get_model('UserAuth')->login($email,$password)) // successful login
+					echo 'Redirect to index';
+			}
+
+			$data['error'] = $this->get_model('UserAuth')->error;
+			
+			$this->get_view()->render('user/login_view', $data);
+		}
 	}
 	
 	/**
@@ -75,17 +88,17 @@ class userController extends Controller {
 		
 	}
 
-	/*
+	
 	private function redirect()
 	{
-		
+		/*
 		$baseUrl = sprintf(
 			"%s://%s",
 			isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
 			$_SERVER['SERVER_NAME']
 		);
 
-		header( 'Location: {$baseUrl}' );
+		header( 'Location: {$baseUrl}' );*/
 
-	}*/
+	}
 }
