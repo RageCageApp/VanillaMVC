@@ -46,12 +46,15 @@ class CustomSession
 							'user_data'		=> ''
 							);
 
+		$this->_sessionID = $this->_sessionUserData['session_id'];
+
 		$this->_application->db->insert('my_sessions', $this->_sessionUserData);
 
 		setcookie(
 			SESS_COOKIE_NAME,
 			$this->_sessionUserData['session_id'],
-			time()+3600
+			time()+3600,
+			'/'
 		);
 	}
 
@@ -100,10 +103,12 @@ class CustomSession
 	// Destroys session data
 	public function destroy()
 	{
-		setcookie(
+		unset($_COOKIE[SESS_COOKIE_NAME]);
+	    setcookie(
 			SESS_COOKIE_NAME,
-			"",
-			time()-1
+			null,
+			time()-3600,
+			'/'
 		);
 
 		$this->_sessionUserData = NULL;
