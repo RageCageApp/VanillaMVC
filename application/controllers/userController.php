@@ -6,11 +6,12 @@ class userController extends Controller {
 		parent::__construct($controller, $action); 
 
 		// Load models
-		$this->load_model('userModel'); 
+		$this->load_model('UserAuth');
 	}
 
 	
 	public function index(){
+		echo 'index';
 		// user logged in 
 			// show after login page
 		// user not logged in 
@@ -23,15 +24,16 @@ class userController extends Controller {
 	 *
 	 * @return void
 	 */
-	public function login(){
-		$this->get_model('userModel')->test();
-		// user logged in
-			// show user dashboard
-		// logged in but not activated
-			// show resend email page
-		// not logged in
-			// show login/register page
-		//phpinfo();
+	public function login()
+	{
+		//var_dump($this->get_model('UserAuth')->login('myromac87@gmail.com','polosport'));
+		//var_dump($this->session->getSessionData());
+		if($this->get_model('UserAuth')->isLoggedIn())
+			echo 'redirect to index'
+		else if($this->get_model('UserAuth')->isLoggedIn(FALSE))
+			echo 'Redirect to resend email';
+		else
+			$this->get_model('UserAuth')->login('myromac87@gmail.com','polosport');
 	}
 	
 	/**
@@ -57,8 +59,9 @@ class userController extends Controller {
 	 *
 	 * @return void
 	 */
-	public function logout(){
-
+	public function logout()
+	{
+		$this->session->destroy();
 	}
 
 	/**
@@ -71,4 +74,18 @@ class userController extends Controller {
 	private function send_email($email, $activation_code){
 		
 	}
+
+	/*
+	private function redirect()
+	{
+		
+		$baseUrl = sprintf(
+			"%s://%s",
+			isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
+			$_SERVER['SERVER_NAME']
+		);
+
+		header( 'Location: {$baseUrl}' );
+
+	}*/
 }
