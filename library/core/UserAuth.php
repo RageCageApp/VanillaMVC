@@ -4,7 +4,7 @@ define('STATUS_NOT_ACTIVATED', '0');
 
 class UserAuth
 {
-	private $error = array();
+	public $error;
 	protected $models;
 	protected $_application;
 
@@ -55,6 +55,7 @@ class UserAuth
 				} 
 			} 
 		}
+		$this->error = 'Email and Password don\'t match entry in database.';
 		return FALSE;
 	}
 
