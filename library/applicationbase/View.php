@@ -1,8 +1,6 @@
 <?php
 class View {
      
-    protected $variables = array();
-     
     function __construct() {
 
     }
@@ -13,13 +11,14 @@ class View {
     }
  
     // Display View 
-    function render($viewName) {
-        extract($this->variables);
+    function render($viewName, $variables) {
+        extract($variables);
      
-        if (file_exists(ROOT . DS . 'application' . DS . 'views' . DS . $view_name . '.php')) {
-            include (ROOT . DS . 'application' . DS . 'views' . DS . $view_name . '.php');
+        if (file_exists(ROOT . DS . 'application' . DS . 'views' . DS . $viewName . '.php')) {
+            include (ROOT . DS . 'application' . DS . 'views' . DS . $viewName . '.php');
         } else {
             //********* ERROR: failed to find proper view ***************//
+            die("View {$viewName} file not found");
         }
     }
  
