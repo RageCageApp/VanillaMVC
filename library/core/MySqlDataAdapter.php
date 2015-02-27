@@ -66,6 +66,7 @@ class MySqlDataAdapter
     public function query ($query, $bindParams = null)
     {
         $this->_query = $query; 
+
         //We can use filter_var to sanitize the query; but, the base query can automatically be assumed to be safe since all base querries will be written by us. Only user input needs to be santized. And we will do via the bind_param below.
         
         if (!$stmt = $this->_mysqli->prepare($this->_query)) {
@@ -89,21 +90,42 @@ class MySqlDataAdapter
     /**
      *
      * @param string $tableName The name of the table.
-     * @param array $insertData Data containing information for inserting into the DB.
+     * @param array  $insertData Data containing insert info.
      *
-     * @return boolean insert query was success or failure.
+     * @return boolean Boolean indicating successs/failure.
      */
     public function insert($tableName, $insertData)
     {
         $this->_query = "INSERT into " .$tableName;
-        $stmt = $this->_buildQuery(null, $insertData);
+        $this->_query .= '(`' . implode(array_keys($insertData), '`, `') . '`)';
+        $this->_query .= ' VALUES(';
+
+        $params = array(''); // Create the empty 0 index
+        foreach ($insertData as $column => $value){
+            $params[0] .= $this->_getType($value);
+            array_push ($params, $insertData[$column]);
+            $this->_query .= '?, ';
+        }
+
+        $this->_query = rtrim($this->_query, ', ');
+        $this->_query .= ')';
+
+        // Prepare query
+        if (!$stmt = $this->_mysqli->prepare($this->_query)) {
+            trigger_error("Problem preparing query ($this->_query) " . $this->_mysqli->error, E_USER_ERROR);
+        }
+
+        // Bind parameters to statement if any
+        call_user_func_array(array($stmt, 'bind_param'), $this->refValues($params));
+
         $stmt->execute();
         $this->_lastError = $stmt->error;
-      
+
         if ($stmt->affected_rows < 1)
             return false;
         if ($stmt->insert_id > 0)
             return $stmt->insert_id;
+
         return true;
     }
 
