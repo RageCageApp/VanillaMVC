@@ -55,7 +55,7 @@ class Controller {
 
     // Return view object 
     protected function get_view() { 
-        return $this->view; 
+        return $this->_view; 
     }
 
     public static function &get_instance()
