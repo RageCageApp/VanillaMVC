@@ -45,7 +45,8 @@ class UserAuth
 					));
 
 					if ($user[0]['activated'] == 0) {							// fail - not activated
-						$this->error = 'User account not activated';
+						$this->error = 'User account not activated. Check your email for activation instructions.';
+						return TRUE;
 
 					} else {												// success
 						return TRUE;
@@ -73,15 +74,16 @@ class UserAuth
 			
 				$hasher = new PasswordHasher();
 
-				if($this->_application->get_model('userModel')->create_new_user($login, $hasher->hashPassword($password))){		// success in creating new user in db
-
+				if($user_data = $this->_application->get_model('userModel')->create_new_user($login, $hasher->hashPassword($password))){		// success in creating new user in db									
+					
 					$this->_application->session->setSessionUserData(array(
-							'user_id'	=> $user[0]['id'],
-							'email'		=> $user[0]['email'],
+							'user_id'	=> $user_data['id'],
+							'email'		=> $user_data['email'],
 							'status'	=> STATUS_NOT_ACTIVATED,
 					));
-															
-					return TRUE;	
+
+					return $user_data;	
+				
 				} else {	// failed to create new user in DB
 					$this->error = 'DB Error. Contact system admin.';
 					return FALSE;

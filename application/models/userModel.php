@@ -37,9 +37,18 @@ class userModel extends Model
 	{
 		$insert_data = array(
 			'email' => $email,
-			'password' => $password
+			'password' => $password,
+			'activation_key' => rand(1000,9999)
 			);
 
-		return $this->_application->db->insert('users', $insert_data);
+		if($insert_id = $this->_application->db->insert('users', $insert_data)){
+
+			$insert_data['id'] = $insert_id;
+
+			return $insert_data;
+
+		}
+
+		return FALSE;
 	}
 }
