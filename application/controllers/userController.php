@@ -76,8 +76,11 @@ class userController extends Controller {
 				 *		2) passwords match		
 				 */
 
-				if($this->get_model('UserAuth')->register($email,$password)) // successful login
+				if($user_data = $this->get_model('UserAuth')->register($email,$password)) {// successful login
+					$this->send_email($user_data['id'], $user_data['email'], $user_data ['activation_key']);
 					HelperFunctions::redirect('user/index');
+
+				}	
 			}
 
 			$data['error'] = $this->get_model('UserAuth')->error;
@@ -102,8 +105,10 @@ class userController extends Controller {
 	 */
 	public function resend_activation_email()
 	{
-		$this->session->destroy();
-		$this->get_view()->render('user/resend_activation_email');
+		if($this->get_model('UserAuth')->isLoggedIn(FALSE))
+			$this->get_view()->render('user/resend_activation_email');
+		else
+			HelperFunctions::redirect('user/index');
 	}
 
 	/**
@@ -114,6 +119,7 @@ class userController extends Controller {
 	public function logout()
 	{
 		$this->session->destroy();
+		HelperFunctions::redirect('user/index');
 	}
 
 	/**
@@ -123,8 +129,17 @@ class userController extends Controller {
 	 * @param	string
 	 * @return	void
 	 */
-	private function send_email($email, $activation_code){
+	private function send_email($id, $email, $activation_code)
+	{
+		$activationUrl = sprintf(
+            "%s://%s",
+            isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
+            $_SERVER['HTTP_HOST'].'/user/activate/'.$id.'/'.$activation_code
+        );
+		$title   = "Activate your Vanila MVC account"; 
+		$message = "To activate your account, click the link: {$activationUrl}"; 
 		
+		mail($email, $title, $message); 
 	}
 
 	
