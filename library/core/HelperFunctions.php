@@ -59,5 +59,6 @@ class HelperFunctions{
             $_SERVER['HTTP_HOST'].'/'.$action
         );
         header( "Location: {$baseUrl}" );
+        return;
     }
 }
