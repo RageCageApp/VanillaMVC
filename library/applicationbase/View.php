@@ -11,7 +11,7 @@ class View {
     }
  
     // Display View 
-    function render($viewName, $variables) {
+    function render($viewName, $variables = array()) {
         extract($variables);
      
         if (file_exists(ROOT . DS . 'application' . DS . 'views' . DS . $viewName . '.php')) {
