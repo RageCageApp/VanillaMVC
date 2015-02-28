@@ -102,6 +102,7 @@ class userController extends Controller {
 	 */
 	public function resend_activation_email()
 	{
+		$this->session->destroy();
 		$this->get_view()->render('user/resend_activation_email');
 	}
 
