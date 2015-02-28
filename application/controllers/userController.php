@@ -94,7 +94,8 @@ class userController extends Controller {
 	 *
 	 * @return void
 	 */
-	public function activate($email, $activation_key){
+	public function activate($id, $activation_key)
+	{
 
 	}
 
@@ -138,21 +139,7 @@ class userController extends Controller {
         );
 		$title   = "Activate your Vanila MVC account"; 
 		$message = "To activate your account, click the link: {$activationUrl}"; 
-		
+
 		mail($email, $title, $message); 
-	}
-
-	
-	private function redirect()
-	{
-		/*
-		$baseUrl = sprintf(
-			"%s://%s",
-			isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
-			$_SERVER['SERVER_NAME']
-		);
-
-		header( 'Location: {$baseUrl}' );*/
-
 	}
 }
