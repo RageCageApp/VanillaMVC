@@ -48,6 +48,43 @@ class userController extends Controller {
 			$this->get_view()->render('user/login_view', $data);
 		}
 	}
+
+	/**
+	 * Register user on the site
+	 *
+	 * @return void
+	 */
+	public function register()
+	{
+		if($this->get_model('UserAuth')->isLoggedIn())
+			HelperFunctions::redirect('user/index');
+		else if($this->get_model('UserAuth')->isLoggedIn(FALSE))
+			HelperFunctions::redirect('user/resend_activation_email');
+		else
+		{
+			if(isset($_POST['email']) && isset($_POST['password']) && isset($_POST['password2'])){
+				// Sanitize email POST value. No ned to sanitize password because we will be hashing it later anyway.
+				// This is by no means the best way to sanitize POST values. There are libraries that we can use
+				// to sanitize user input more effectively; but, for this exercise, this should do.
+				$email 		= filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
+				$password 	= $_POST['password'];
+				$password2 	= $_POST['password2'];
+
+				/**
+				 *CODE IMPROVEMENT NEEDED: need to run validation of POST values to make sure:
+				 *		1) email submitted by user is a valid email
+				 *		2) passwords match		
+				 */
+
+				if($this->get_model('UserAuth')->register($email,$password)) // successful login
+					HelperFunctions::redirect('user/index');
+			}
+
+			$data['error'] = $this->get_model('UserAuth')->error;
+			
+			$this->get_view()->render('user/register_view', $data);
+		}
+	}
 	
 	/**
 	 * Activate user account.
@@ -63,8 +100,9 @@ class userController extends Controller {
 	 *
 	 * @return void
 	 */
-	public function resend_activation_email(){
-
+	public function resend_activation_email()
+	{
+		$this->get_view()->render('user/resend_activation_email');
 	}
 
 	/**
