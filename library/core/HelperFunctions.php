@@ -51,4 +51,13 @@ class HelperFunctions{
         return $value;
     }
     
+    // Redirect to specific controller/function
+    public static function redirect($action){
+        $baseUrl = sprintf(
+            "%s://%s",
+            isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
+            $_SERVER['HTTP_HOST'].'/'.$action
+        );
+        header( "Location: {$baseUrl}" );
+    }
 }
