@@ -15,8 +15,6 @@ class CustomSession
 		$this->_application->load_database();
 
 		$this->_setSessionData();
-
-		$this->_loadSessionData();
 	}
 
 	// Sets data of session
@@ -48,14 +46,15 @@ class CustomSession
 
 		$this->_sessionID = $this->_sessionUserData['session_id'];
 
-		$this->_application->db->insert('my_sessions', $this->_sessionUserData);
-
-		setcookie(
-			SESS_COOKIE_NAME,
-			$this->_sessionUserData['session_id'],
-			time()+3600,
-			'/'
-		);
+		if($this->_application->db->insert('my_sessions', $this->_sessionUserData))
+			setcookie(
+				SESS_COOKIE_NAME,
+				$this->_sessionUserData['session_id'],
+				time()+3600,
+				'/'
+			);
+		else
+			die('Error inserting session data in database');
 	}
 
 	// Loads session data in userData class variable
@@ -94,9 +93,10 @@ class CustomSession
 				$this->_sessionUserData['user_data'][$key] = $val;
 			}
 
-			$this->_application->db->update('my_sessions', 
+			if(!$this->_application->db->update('my_sessions', 
 											array('user_data' => serialize($this->_sessionUserData['user_data'])), 
-											array('session_id' => $this->_sessionID));
+											array('session_id' => $this->_sessionID)))
+				die('Error updating session data');
 		}
 	}
 

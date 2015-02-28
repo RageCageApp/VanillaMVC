@@ -1,4 +1,5 @@
 <?php
+//PLEASE READ COMMENTS
 //------THIS IS NOT A SAFE CLASS---------
 /**
  * This class should not be used on a production server. Password hashing is a very complex science
