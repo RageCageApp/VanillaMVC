@@ -71,10 +71,13 @@ class CustomSession
 
 		$result = $this->_application->db->query($query, array($this->_sessionID));	
 
-		$this->_sessionUserData = array(
-							'session_id'    => $this->_sessionID,
-							'user_data'		=> (count($result)) ? unserialize($result[0]['user_data']) : ''
-							);
+		if(count($result) > 0)
+			$this->_sessionUserData = array(
+								'session_id'    => $this->_sessionID,
+								'user_data'		=> unserialize($result[0]['user_data'])
+								);
+		else
+			$this->_createNewSession();
 	}
 
 	// Returns sessionData variable
