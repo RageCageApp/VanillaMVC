@@ -27,9 +27,9 @@ class userController extends Controller {
 	public function login()
 	{
 		if($this->get_model('UserAuth')->isLoggedIn())
-			echo 'Redirect to index';
+			HelperFunctions::redirect('user/index');
 		else if($this->get_model('UserAuth')->isLoggedIn(FALSE))
-			echo 'Redirect to resend email';
+			HelperFunctions::redirect('user/resend_activation_email');
 		else
 		{
 			if(isset($_POST['email']) && isset($_POST['password'])){
