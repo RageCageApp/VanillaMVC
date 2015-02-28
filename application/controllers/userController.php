@@ -11,12 +11,12 @@ class userController extends Controller {
 
 	
 	public function index(){
-		echo 'index';
-		// user logged in 
-			// show after login page
-		// user not logged in 
-			// show login/register page
-
+		if($this->get_model('UserAuth')->isLoggedIn())
+			echo 'index';
+		else if($this->get_model('UserAuth')->isLoggedIn(FALSE))
+			HelperFunctions::redirect('user/resend_activation_email');
+		else
+			HelperFunctions::redirect('user/login');
 	}
 
 	/**
@@ -40,7 +40,7 @@ class userController extends Controller {
 				$password 	= $_POST['password'];
 
 				if($this->get_model('UserAuth')->login($email,$password)) // successful login
-					echo 'Redirect to index';
+					HelperFunctions::redirect('user/index');
 			}
 
 			$data['error'] = $this->get_model('UserAuth')->error;
