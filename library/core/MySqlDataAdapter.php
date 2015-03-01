@@ -150,11 +150,13 @@ class MySqlDataAdapter
         $this->_query = rtrim($this->_query, ', ');
         
         // Where statement
+        $this->_query .= ' WHERE ';
         foreach ($whereData as $column => $value){
             $params[0] .= $this->_getType($value);
             array_push ($params, $whereData[$column]);
-            $this->_query .= ' WHERE `' . $column . '` = ?';
+            $this->_query .= '`'.$column . '` = ? AND ';
         }
+        $this->_query = rtrim($this->_query, ', AND ');
 
         // Prepare query
         if (!$stmt = $this->_mysqli->prepare($this->_query)) {
