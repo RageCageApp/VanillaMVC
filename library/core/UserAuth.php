@@ -125,6 +125,22 @@ class UserAuth
 	}
 
 	/**
+	 * Return TRUE if user is an admin
+	 *
+	 * @param	bool
+	 * @return	bool
+	 */
+	function isAdmin($user_id)
+	{
+		if(!is_null($user = $this->_application->get_model('userModel')->get_user_by_id($user_id))){
+			if($user['administrator'] == 1)
+				return TRUE;
+		}
+
+		return FALSE;
+	}
+
+	/**
 	 * Return id of logged in user
 	 *
 	 * @return	bool
