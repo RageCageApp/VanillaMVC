@@ -37,7 +37,7 @@ class photoController extends Controller {
 		$path_to_new_file = "http://" . $_SERVER['HTTP_HOST'] . "/" . $target_folder . $target_name;
 		
 		// Check if image file is a actual image or fake image
-		if(isset($_POST["submit"])) {
+		if(isset($_POST["submit"]) && strlen($_FILES["fileToUpload"]["tmp_name"]) > 0) {
 		    if(getimagesize($_FILES["fileToUpload"]["tmp_name"]) !== false) { 	// actual image file
 				if($imageFileType == "jpg" 
 					|| $imageFileType == "png" 
@@ -57,6 +57,8 @@ class photoController extends Controller {
 		    } else {															// not an actual image file
 		        echo "File is not an image.";
 		    }
+		} else {
+			echo "Please select an image to upload";
 		}
 	}
 }
