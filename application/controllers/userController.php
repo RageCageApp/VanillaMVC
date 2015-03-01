@@ -29,6 +29,29 @@ class userController extends Controller {
 	}
 
 	/**
+	 * View photos of particular user
+	 *
+	 * @return void
+	 */
+	public function view_user($user_id = NULL)
+	{
+		if($this->get_model('UserAuth')->isLoggedIn() && is_numeric($user_id))
+		{
+			$data['user_data'] = $this->get_model('UserAuth')->get_user_data($user_id);
+			$data['photos'] = $this->get_model('photoModel')->get_user_photos($user_id);
+			
+			if(is_array($data['user_data']))
+				$this->get_view()->render('user/user_view', $data);
+			else 
+				echo 'Can\'t find user.';
+		}
+		else if($this->get_model('UserAuth')->isLoggedIn(FALSE))
+			HelperFunctions::redirect('user/resend_activation_email');
+		else
+			HelperFunctions::redirect('user/login');
+	}
+
+	/**
 	 * Login user on the site
 	 *
 	 * @return void
