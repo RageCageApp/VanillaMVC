@@ -9,6 +9,7 @@ class userController extends Controller {
 		// Load models
 		$this->load_model('UserAuth');
 		$this->load_model('photoModel');
+		$this->load_model('userModel');
 	}
 
 	
@@ -17,10 +18,20 @@ class userController extends Controller {
 		if($this->get_model('UserAuth')->isLoggedIn())
 		{
 			$logged_in_id = $this->get_model('UserAuth')->get_logged_in_user_id();
-			$data['user_data'] = $this->get_model('UserAuth')->get_user_data($logged_in_id);
-			$data['photos'] = $this->get_model('photoModel')->get_user_photos($logged_in_id);
-	
-			$this->get_view()->render('user/logged_in_view', $data);
+
+			if(!$this->get_model('UserAuth')->isAdmin($logged_in_id)) { 			// user not an admin
+				$data['user_data'] = $this->get_model('UserAuth')->get_user_data($logged_in_id);
+				$data['photos'] = $this->get_model('photoModel')->get_user_photos($logged_in_id);
+		
+				$this->get_view()->render('user/logged_in_view', $data);
+			
+			} else {															// user is an admin
+				$data['users'] = $this->get_model('userModel')->get_all_users();
+				$data['photos'] = $this->get_model('photoModel')->get_all_photos();
+		
+				$this->get_view()->render('user/admin_view', $data);
+			}
+			
 		}
 		else if($this->get_model('UserAuth')->isLoggedIn(FALSE))
 			HelperFunctions::redirect('user/resend_activation_email');
@@ -36,14 +47,23 @@ class userController extends Controller {
 	public function view_user($user_id = NULL)
 	{
 		if($this->get_model('UserAuth')->isLoggedIn() && is_numeric($user_id))
-		{
-			$data['user_data'] = $this->get_model('UserAuth')->get_user_data($user_id);
-			$data['photos'] = $this->get_model('photoModel')->get_user_photos($user_id);
+		{	
+			$logged_in_id = $this->get_model('UserAuth')->get_logged_in_user_id();
+			if($this->get_model('UserAuth')->isAdmin($logged_in_id) // user is an admin
+				|| $user_id == $logged_in_id) 	// user owns profile
+			{
+				$data['user_data'] = $this->get_model('UserAuth')->get_user_data($user_id);
+				$data['photos'] = $this->get_model('photoModel')->get_user_photos($user_id);
+				
+				if(!is_null($data['user_data']))
+					$this->get_view()->render('user/user_view', $data);
+				else 
+					echo 'Can\'t find user.';
 			
-			if(is_array($data['user_data']))
-				$this->get_view()->render('user/user_view', $data);
-			else 
-				echo 'Can\'t find user.';
+			} else {																							// user is not an admin
+				echo 'You need to be an admin to see other\'s photos.';
+			}
+			
 		}
 		else if($this->get_model('UserAuth')->isLoggedIn(FALSE))
 			HelperFunctions::redirect('user/resend_activation_email');

@@ -8,6 +8,7 @@ class userModel extends Model
 		// Load core controller functions 
 		parent::__construct(); 
 		$this->_application =& Controller::get_instance();
+		$this->_application->load_database();
 	}
 
 	// takes in an email(str) and returns database entry that matches the email
@@ -50,6 +51,23 @@ class userModel extends Model
 
 		if (count($result))
 			return $result[0];
+
+		return NULL;
+	}
+
+	// returns all users of db
+	public function get_all_users()
+	{
+		$query = 
+		"SELECT 
+			U.id, 
+			U.email
+		FROM users U";
+
+		$result = $this->_application->db->query($query);	
+
+		if (count($result))
+			return $result;
 
 		return NULL;
 	}
