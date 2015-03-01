@@ -44,6 +44,26 @@ class photoModel extends Model
 		return NULL;
 	}
 
+	// returns list of all photos in the database
+	public function get_all_photos()
+	{
+		$query = 
+		"SELECT 
+			P.photo_id,
+			P.path,
+			U.email
+		FROM photos P
+		LEFT JOIN users U ON P.owner_id = U.id
+		WHERE P.deleted = 0";
+
+		$result = $this->_application->db->query($query);	
+
+		if (count($result))
+			return $result;
+
+		return NULL;
+	}
+
 	// takes photo id and returns photo data
 	public function get_photo($photo_id)
 	{

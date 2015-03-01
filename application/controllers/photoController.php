@@ -31,6 +31,25 @@ class photoController extends Controller {
 		}
 	}
 
+	/**  
+	 * View all photos
+	 *
+	 * @return void
+	 */
+	public function view_all()
+	{
+		if($this->get_model('UserAuth')->isLoggedIn() 
+			&& $this->get_model('UserAuth')->isAdmin($this->get_model('UserAuth')->get_logged_in_user_id()))
+		{
+			$data['photos'] = $this->get_model('photoModel')->get_all_photos();
+			var_dump($data);
+			$this->get_view()->render('photo/view_all', $data);
+
+		} else {
+			HelperFunctions::redirect('user/index');
+		}
+	}
+
 	/**
 	 * Delete photo
 	 *
