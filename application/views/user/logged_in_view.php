@@ -14,7 +14,9 @@
 		if(isset($photos) && is_array($photos)){
 			foreach($photos as $photo){
 				?>
-				<img src="<?php echo $photo['path'];?>" height="100" width="100">
+					<a href="/photo/view/<?php echo $photo['photo_id'];?>">
+					<img src="<?php echo $photo['path'];?>" height="100" width="100">
+					</a>
 				<?php
 			}
 		}

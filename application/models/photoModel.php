@@ -29,6 +29,7 @@ class photoModel extends Model
 	{
 		$query = 
 		"SELECT 
+			P.photo_id,
 			P.path
 		FROM photos P
 		WHERE 

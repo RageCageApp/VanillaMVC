@@ -11,7 +11,7 @@ class photoController extends Controller {
 		$this->load_model('photoModel');
 	}
 
-	/**
+	/**  
 	 * View photo
 	 *
 	 * @return void
@@ -25,7 +25,7 @@ class photoController extends Controller {
 				$data['photo_data'] = $this->get_model('photoModel')->get_photo($photo_id);
 				$this->get_view()->render('photo/photo_view', $data);
 			}
-			
+
 		} else {
 			HelperFunctions::redirect('user/index');
 		}
