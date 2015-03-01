@@ -121,6 +121,7 @@ class userController extends Controller {
 				$email 		= filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
 				$password 	= $_POST['password'];
 				$password2 	= $_POST['password2'];
+				$admin 		= ($_POST['type'] == 1) ? 1 : 0;
 
 				/**
 				 *CODE IMPROVEMENT NEEDED: need to run validation of POST values to make sure:
@@ -128,10 +129,9 @@ class userController extends Controller {
 				 *		2) passwords match		
 				 */
 
-				if($user_data = $this->get_model('UserAuth')->register($email,$password)) {// successful login
+				if($user_data = $this->get_model('UserAuth')->register($email,$password,$password2,$admin)) {// successful login
 					$this->send_email($user_data['id'], $user_data['email'], $user_data ['activation_key']);
 					HelperFunctions::redirect('user/index');
-
 				}	
 			}
 

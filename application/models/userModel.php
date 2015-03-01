@@ -73,12 +73,13 @@ class userModel extends Model
 	}
 
 	// takes in an email and password and creates a new entry in the database
-	public function create_new_user($email, $password)
+	public function create_new_user($email, $password, $admin)
 	{
 		$insert_data = array(
 			'email' => $email,
 			'password' => $password,
-			'activation_key' => rand(1000,9999)
+			'activation_key' => rand(1000,9999),
+			'administrator' => $admin
 			);
 
 		if($insert_id = $this->_application->db->insert('users', $insert_data)){
