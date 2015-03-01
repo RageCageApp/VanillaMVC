@@ -64,28 +64,36 @@ class UserAuth
 	 *
 	 * @param	string
 	 * @param	string
+	 * @param	string
 	 * @return	bool
 	 */
-	function register($login, $password)
+	function register($login, $password, $password2, $admin = 0)
 	{
 		if ((strlen($login) > 0) AND (strlen($password) > 0)) {
 
 			if (is_null($user = $this->_application->get_model('userModel')->get_user_by_email($login))) {	// email not in database
 			
-				$hasher = new PasswordHasher();
+				if($password == $password2) {	// passwords match
 
-				if($user_data = $this->_application->get_model('userModel')->create_new_user($login, $hasher->hashPassword($password))){		// success in creating new user in db									
+					$hasher = new PasswordHasher();
+
+					if($user_data = $this->_application->get_model('userModel')->create_new_user($login, $hasher->hashPassword($password), $admin)){		// success in creating new user in db									
+						
+						$this->_application->session->setSessionUserData(array(
+								'user_id'	=> $user_data['id'],
+								'email'		=> $user_data['email'],
+								'status'	=> STATUS_NOT_ACTIVATED,
+						));
+
+						return $user_data;	
 					
-					$this->_application->session->setSessionUserData(array(
-							'user_id'	=> $user_data['id'],
-							'email'		=> $user_data['email'],
-							'status'	=> STATUS_NOT_ACTIVATED,
-					));
+					} else {	// failed to create new user in DB
+						$this->error = 'DB Error. Contact system admin.';
+						return FALSE;
+					}
 
-					return $user_data;	
-				
-				} else {	// failed to create new user in DB
-					$this->error = 'DB Error. Contact system admin.';
+				} else {						// passwords do not match
+					$this->error = 'Registration failed. Passwords do not match.';
 					return FALSE;
 				}
 			} 
