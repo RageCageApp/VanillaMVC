@@ -4,7 +4,11 @@
 		Email: <?php echo (isset($user_data['email']) ? $user_data['email'] : 'No Email');?>
 		<hr style="margin: 20px 0px;">	
 		<div style="float: left;">
-			Welcome!	
+			<form action="/photo/upload" method="post" enctype="multipart/form-data">
+			    Select image to upload:
+			    <input type="file" name="fileToUpload" id="fileToUpload">
+			    <input type="submit" value="Upload Image" name="submit">
+			</form>	
 		</div>
 	</div>
 </div>
