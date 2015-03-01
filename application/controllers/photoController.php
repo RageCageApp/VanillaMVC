@@ -12,6 +12,54 @@ class photoController extends Controller {
 	}
 
 	/**
+	 * View photo
+	 *
+	 * @return void
+	 */
+	public function view($photo_id = NULL)
+	{
+		if($this->get_model('UserAuth')->isLoggedIn())
+		{
+			if(is_numeric($photo_id))
+			{
+				$data['photo_data'] = $this->get_model('photoModel')->get_photo($photo_id);
+				$this->get_view()->render('photo/photo_view', $data);
+			}
+			
+		} else {
+			HelperFunctions::redirect('user/index');
+		}
+	}
+
+	/**
+	 * Delete photo
+	 *
+	 * @return void
+	 */
+	public function delete($photo_id = NULL)
+	{
+		if($this->get_model('UserAuth')->isLoggedIn())
+		{
+			if(is_numeric($photo_id))
+			{
+				$logged_in_id = $this->get_model('UserAuth')->get_logged_in_user_id();
+
+				if($this->get_model('photoModel')->delete($photo_id, $logged_in_id))
+					HelperFunctions::redirect('user/index');
+
+				else
+					echo 'You do not have the priveleges to delete that photo.';
+			
+			} else {
+				echo 'Photo ID is not valid';
+			}
+		
+		} else {
+			HelperFunctions::redirect('user/index');
+		}
+	}
+
+	/**
 	 * Upload Photo
 	 *
 	 * @return void
@@ -25,7 +73,7 @@ class photoController extends Controller {
 		//Create Unique Name for file being uploaded
 		$sessid = '';
 		while (strlen($sessid) < 32)
-		{
+		{ 
 			$sessid .= mt_rand(0, mt_getrandmax());
 		}
 		$target_name = md5(uniqid($sessid, TRUE)) . '.' . strtolower(pathinfo($_FILES["fileToUpload"]["name"],PATHINFO_EXTENSION));
