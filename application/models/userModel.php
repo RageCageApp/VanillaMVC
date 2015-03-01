@@ -49,7 +49,7 @@ class userModel extends Model
 		$result = $this->_application->db->query($query, array($id));	
 
 		if (count($result))
-			return $result;
+			return $result[0];
 
 		return NULL;
 	}

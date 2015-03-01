@@ -16,7 +16,7 @@ class userController extends Controller {
 		if($this->get_model('UserAuth')->isLoggedIn())
 		{
 			$data['user_data'] = $this->get_model('UserAuth')->get_user_data($this->get_model('UserAuth')->get_logged_in_user_id());
-			$this->get_view()->render('user/logged_in_view');
+			$this->get_view()->render('user/logged_in_view', $data);
 		}
 		else if($this->get_model('UserAuth')->isLoggedIn(FALSE))
 			HelperFunctions::redirect('user/resend_activation_email');

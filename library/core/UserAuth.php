@@ -146,6 +146,8 @@ class UserAuth
 	 */
 	function get_user_data($user_id = 0)
 	{
+		//Certainly, we can get user's email from session data. However, if we want to get more information about the user later on
+		//like name, age, etc., then querying the server is necessary
 		return $this->_application->get_model('userModel')->get_user_by_id($user_id);
 	}
 }
