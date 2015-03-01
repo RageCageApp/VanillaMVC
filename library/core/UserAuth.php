@@ -123,4 +123,29 @@ class UserAuth
 
 		return FALSE;
 	}
+
+	/**
+	 * Return id of logged in user
+	 *
+	 * @return	bool
+	 */
+	function get_logged_in_user_id()
+	{
+		$sessionData = $this->_application->session->getSessionData();
+
+		if(isset($sessionData['user_data']['user_id']))
+			return $sessionData['user_data']['user_id'];
+
+		return NULL;
+	}
+
+	/**
+	 * Return id of logged in user
+	 *
+	 * @return	bool
+	 */
+	function get_user_data($user_id = 0)
+	{
+		return $this->_application->get_model('userModel')->get_user_by_id($user_id);
+	}
 }

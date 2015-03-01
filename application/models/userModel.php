@@ -32,6 +32,28 @@ class userModel extends Model
 		return NULL;
 	}
 
+	// takes in an id and returns database entry that matches the id
+	public function get_user_by_id($id)
+	{
+		$query = 
+		"SELECT 
+			U.id, 
+			U.password, 
+			U.email, 
+			U.activated, 
+			U.administrator 
+		FROM users U 
+		WHERE 
+			U.id = ?";
+
+		$result = $this->_application->db->query($query, array($id));	
+
+		if (count($result))
+			return $result;
+
+		return NULL;
+	}
+
 	// takes in an email and password and creates a new entry in the database
 	public function create_new_user($email, $password)
 	{
