@@ -51,4 +51,11 @@ class userModel extends Model
 
 		return FALSE;
 	}
+
+	public function activate_user($id, $activation_key)
+	{
+		return $this->_application->db->update('users', 
+												array('activated' => 1), 
+												array('id' => $id, 'activation_key' => $activation_key));
+	}
 }

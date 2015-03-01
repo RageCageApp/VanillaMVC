@@ -97,6 +97,18 @@ class UserAuth
 	}
 
 	/**
+	 * Activate account. Return TRUE if login is successful
+	 *
+	 * @param	int
+	 * @param	int
+	 * @return	bool
+	 */
+	function activate($id, $activation_key)
+	{
+		return $this->_application->get_model('userModel')->activate_user($id, $activation_key);
+	}
+
+	/**
 	 * Return TRUE if user is logged in
 	 *
 	 * @param	bool

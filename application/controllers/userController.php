@@ -94,9 +94,28 @@ class userController extends Controller {
 	 *
 	 * @return void
 	 */
-	public function activate($id, $activation_key)
+	public function activate($id = NULL, $activation_key = NULL)
 	{
+		$data['message'] = '';
 
+		if(is_numeric($id) && is_numeric($activation_key)) {
+			
+			if($this->get_model('UserAuth')->activate($id,$activation_key)){	// successful activation
+			
+				$data['message'] = 'Account Activated';
+
+			} else {														// activation failed
+
+				$data['message'] = 'Account Activation Failed';
+
+			}
+		} else {
+			HelperFunctions::redirect('user/index');
+		}
+
+		$data['error'] = $this->get_model('UserAuth')->error;
+			
+		$this->get_view()->render('user/activated_view', $data);
 	}
 
 	/**
