@@ -1,7 +1,8 @@
 <?php
 class userController extends Controller {   
 
-	public function __construct($controller,$action) { 
+	public function __construct($controller,$action) 
+	{ 
 		// Load core controller functions 
 		parent::__construct($controller, $action); 
 
@@ -10,9 +11,13 @@ class userController extends Controller {
 	}
 
 	
-	public function index(){
+	public function index()
+	{
 		if($this->get_model('UserAuth')->isLoggedIn())
-			echo 'index';
+		{
+			$data['user_data'] = $this->get_model('UserAuth')->get_user_data($this->get_model('UserAuth')->get_logged_in_user_id());
+			$this->get_view()->render('user/logged_in_view');
+		}
 		else if($this->get_model('UserAuth')->isLoggedIn(FALSE))
 			HelperFunctions::redirect('user/resend_activation_email');
 		else
