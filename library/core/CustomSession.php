@@ -91,6 +91,7 @@ class CustomSession
 	{
 		if (count($data) > 0)
 		{
+			$this->_sessionUserData['user_data'] = array();
 			foreach ($data as $key => $val)
 			{
 				$this->_sessionUserData['user_data'][$key] = $val;
