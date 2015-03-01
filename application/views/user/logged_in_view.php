@@ -10,5 +10,14 @@
 			    <input type="submit" value="Upload Image" name="submit">
 			</form>	
 		</div>
+		<?php
+		if(isset($photos) && is_array($photos)){
+			foreach($photos as $photo){
+				?>
+				<img src="<?php echo $photo['path'];?>">
+				<?php
+			}
+		}
+		?>
 	</div>
 </div>

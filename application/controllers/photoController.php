@@ -34,7 +34,7 @@ class photoController extends Controller {
 		$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
 		//Target url of new file
-		$path_to_new_file = $_SERVER['HTTP_HOST'] . "/" . $target_folder . $target_name;
+		$path_to_new_file = "http://" . $_SERVER['HTTP_HOST'] . "/" . $target_folder . $target_name;
 		
 		// Check if image file is a actual image or fake image
 		if(isset($_POST["submit"])) {

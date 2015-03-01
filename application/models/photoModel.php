@@ -21,4 +21,23 @@ class photoModel extends Model
 
 		return $this->_application->db->insert('photos', $insert_data);
 	}	
+
+	// takes in a user's id and returns list of photos of that user
+	public function get_user_photos($user_id)
+	{
+		$query = 
+		"SELECT 
+			P.path
+		FROM photos P
+		WHERE 
+			P.owner_id = ?
+			AND P.deleted = 0";
+
+		$result = $this->_application->db->query($query, array($user_id));	
+
+		if (count($result))
+			return $result;
+
+		return NULL;
+	}
 }

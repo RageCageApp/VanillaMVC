@@ -8,6 +8,7 @@ class userController extends Controller {
 
 		// Load models
 		$this->load_model('UserAuth');
+		$this->load_model('photoModel');
 	}
 
 	
@@ -15,7 +16,10 @@ class userController extends Controller {
 	{
 		if($this->get_model('UserAuth')->isLoggedIn())
 		{
-			$data['user_data'] = $this->get_model('UserAuth')->get_user_data($this->get_model('UserAuth')->get_logged_in_user_id());
+			$logged_in_id = $this->get_model('UserAuth')->get_logged_in_user_id();
+			$data['user_data'] = $this->get_model('UserAuth')->get_user_data($logged_in_id);
+			$data['photos'] = $this->get_model('photoModel')->get_user_photos($logged_in_id);
+	
 			$this->get_view()->render('user/logged_in_view', $data);
 		}
 		else if($this->get_model('UserAuth')->isLoggedIn(FALSE))
