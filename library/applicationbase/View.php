@@ -15,7 +15,9 @@ class View {
         extract($variables);
      
         if (file_exists(ROOT . DS . 'application' . DS . 'views' . DS . $viewName . '.php')) {
+            include (ROOT . DS . 'application' . DS . 'views' . DS . 'shared/header' . '.php');
             include (ROOT . DS . 'application' . DS . 'views' . DS . $viewName . '.php');
+            include (ROOT . DS . 'application' . DS . 'views' . DS . 'shared/footer' . '.php');
         } else {
             //********* ERROR: failed to find proper view ***************//
             die("View {$viewName} file not found");
