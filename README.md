@@ -2,8 +2,23 @@ VanillaMVC
 ================
 
 Project Overview
------------
+================
 You are writing a photo saving utility that has members and administrators. The purpose of this site is to allow users to come in, create an account, receive a verification email to activate the account, allow users to upload photos, see the photos they have uploaded and have some basic functions (cropping, resizing etc...). There is also an administrative interface where we can see all the photos, choose to search by user and some statistics as well (how many photos uploaded, number of users and so on).
+
+Task #1
+-----------
+•	Create a homepage with a login and registration form. - DONE
+•	Allow a user to register with an email and password - DONE
+•	Allow a user to login using email and password - DONE
+•	Automatically redirect from the homepage to a dashboard page if the user is logged in. - DONE
+
+Bonus: 
+•	Add confirm password functionality to the registration form and use javascript to prevent registration unless the passwords match. - DONE
+•	Specify whether a user is an administrator or standard user - DONE
+
+Mega Bonus: 
+•	Use javascript validation to ensure both forms cannot be submitted unless all fields are not blank - DONE
+
 
 Code shortcomings
 -----------
