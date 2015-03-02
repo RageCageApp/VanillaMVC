@@ -5,8 +5,10 @@ Project Overview
 ================
 You are writing a photo saving utility that has members and administrators. The purpose of this site is to allow users to come in, create an account, receive a verification email to activate the account, allow users to upload photos, see the photos they have uploaded and have some basic functions (cropping, resizing etc...). There is also an administrative interface where we can see all the photos, choose to search by user and some statistics as well (how many photos uploaded, number of users and so on).
 
-Task #1
+Task #1 - User Creation
 -----------
+Required:
+
 •	Create a homepage with a login and registration form. - DONE
 
 •	Allow a user to register with an email and password - DONE
@@ -24,6 +26,52 @@ Bonus:
 Mega Bonus: 
 
 •	Use javascript validation to ensure both forms cannot be submitted unless all fields are not blank - DONE
+
+Task #2 - User Dashboard
+-----------
+Required:
+
+•	Display user's email address - DONE
+
+•	Allow user to upload an image - DONE
+
+•	View all images that a user has uploaded – DONE
+
+•	Delete an image - DONE
+
+•	Redirect the user back to the dashboard after an upload or deletion - DONE
+
+Bonus:
+
+•	Allow users to change their e-mail address - DONE
+
+•	Allow users to specify the order in which the images are displayed, and display them in that order
+
+•	Delete multiple images at a time
+
+Mega Bonus:
+
+•	Use Ajax to delete an image from the database and the page without refreshing
+
+Task #3 - Admin Dashboard
+-----------
+Required:
+
+•	View all photos from all users - DONE
+
+•	View all photos from a specific user - DONE
+
+•	Display the email address that each photo belongs to - DONE
+
+Bonus:
+
+•	Filter multiple users at a time
+
+•	Prevent non-admin users from accessing the page - DONE
+
+Mega Bonus:
+
+•	Allow the admin to transfer ownership of multiple images to multiple users. Keep in mind that one image cannot be owned by multiple users.
 
 
 Code shortcomings
