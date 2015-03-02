@@ -1,5 +1,8 @@
 # VanillaMVC
-MVC Framework created from scratch
+
+I created this repo to address the following coding exercise:
+
+You are writing a photo saving utility that has members and administrators. The purpose of this site is to allow users to come in, create an account, receive a verification email to activate the account, allow users to upload photos, see the photos they have uploaded and have some basic functions (cropping, resizing etc...). There is also an administrative interface where we can see all the photos, choose to search by user and some statistics as well (how many photos uploaded, number of users and so on).
 
 Code shortcomings:
 
