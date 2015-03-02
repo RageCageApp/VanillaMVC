@@ -1,6 +1,6 @@
 Project Overview
 ================
-The following code exercise was meant to address a coding exercise of Pixafy. It is by no means a realistic application deployable in the real world (Please see Code Shortcomings section below). Instead, this exercise was meant to showcase my understanding of php and my knowledge of how MVC frameworks operate. As a result, I could not use an existing MVC framework; instead, I had to create one from scratch.
+The following code exercise was meant to address a coding exercise of Pixafy. It is by no means a realistic application deployable in the real world (Please see Code Shortcomings section below). Instead, this exercise was meant to showcase my understanding of php and my knowledge of how MVC frameworks operate. I could not use an existing MVC framework; as a result, I created one from scratch to address the following tasks.
 
 Task #1 - User Creation
 -----------
