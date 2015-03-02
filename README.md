@@ -1,4 +1,8 @@
 # VanillaMVC
+================
+
+VanillaMVC
+================
 
 I created this repo to address the following coding exercise:
 
