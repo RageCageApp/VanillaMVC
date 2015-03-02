@@ -140,6 +140,44 @@ class userController extends Controller {
 			$this->get_view()->render('user/register_view', $data);
 		}
 	}
+
+	/**
+	 * Update user's email
+	 *
+	 * @return void
+	 */
+	public function update_email()
+	{
+		if($this->get_model('UserAuth')->isLoggedIn()){
+
+			$logged_in_id = $this->get_model('UserAuth')->get_logged_in_user_id();
+
+			if(isset($_POST['email'])){		// user has inputed a value in email field
+				
+				// Sanitize email POST value. This is by no means the best way to sanitize POST values. 
+				// There are libraries that we can use to sanitize user input more effectively; but, for this exercise, 
+				// this should do.
+				$email 		= filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
+
+				/**
+				 *CODE IMPROVEMENT NEEDED: need to run validation of POST values to make sure:
+				 *		1) email submitted by user is a valid email	
+				 */
+
+				if($user_data = $this->get_model('UserAuth')->update_email($logged_in_id, $email)) {// successful email update
+					HelperFunctions::redirect('user/index');
+
+				} else {	// failed to update email
+					echo $this->get_model('UserAuth')->error;
+				}
+			} else {	// lacking email input
+				echo 'Please enter valid email.';
+			}
+
+		} else {
+			HelperFunctions::redirect('user/index');
+		}
+	}
 	
 	/**
 	 * Activate user account.

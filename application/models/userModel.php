@@ -93,6 +93,15 @@ class userModel extends Model
 		return FALSE;
 	}
 
+	//updates user's email in database
+	public function update_email($user_id, $email)
+	{
+		return $this->_application->db->update('users', 
+												array('email' => $email), 
+												array('id' => $user_id));
+	}
+
+	// activates user entry in database
 	public function activate_user($id, $activation_key)
 	{
 		return $this->_application->db->update('users', 

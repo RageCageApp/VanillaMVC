@@ -105,6 +105,25 @@ class UserAuth
 	}
 
 	/**
+	 * Updates user's email. Returns true if successful
+	 *
+	 * @param	int
+	 * @param	string
+	 * @return	bool
+	 */
+	function update_email($user_id, $email)
+	{
+		if (is_null($user = $this->_application->get_model('userModel')->get_user_by_email($email))) {	// email not in database
+			return $this->_application->get_model('userModel')->update_email($user_id, $email);
+		} 
+
+		else 																							// email in database
+			$this->error = 'Please enter another email. The email you entered is already registered in our system.';
+
+		return FALSE;
+	}
+
+	/**
 	 * Activate account. Return TRUE if login is successful
 	 *
 	 * @param	int
