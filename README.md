@@ -1,9 +1,6 @@
-VanillaMVC
-================
-
 Project Overview
 ================
-The following code exercise was meant to address a coding exercise of Pixafy. It is by no means a realistic application deployable in the real world (Please see Code Shortcomings section below). Instead, this exercise was meant to showcase my understanding of php and my knowledge of how MVC frameworks operate.
+The following code exercise was meant to address a coding exercise of Pixafy. It is by no means a realistic application deployable in the real world (Please see Code Shortcomings section below). Instead, this exercise was meant to showcase my understanding of php and my knowledge of how MVC frameworks operate. As a result, I could not use an existing MVC framework; instead, I had to create one from scratch.
 
 Task #1 - User Creation
 -----------
@@ -97,6 +94,8 @@ needs better error handling… don’t kill app if you run into an error like be
 lacks feature that allows user to request another activation email
 
 lacks anti-virus and xss clean of photo uploaded
+
+needs to employ APC and Memcache to increase performance/scalability
 
 Local Setup
 ================
